@@ -1,0 +1,73 @@
+
+module project_8 (
+    input  [31:0] A,
+    input  [31:0] B,
+    input  [2:0]  Opcode,
+    input         Clk,
+    input         Enable,
+
+    output reg [31:0] Result,
+    output reg        Cout
+);
+
+    // ALU operation
+    always @(posedge Clk) begin
+
+        if (Enable) begin
+
+            case (Opcode)
+
+                // Addition
+                3'b000: begin
+                    {Cout, Result} = A + B;
+                end
+
+                // Subtraction
+                3'b001: begin
+                    {Cout, Result} = A - B;
+                end
+
+                // Bitwise AND
+                3'b010: begin
+                    Result = A & B;
+                    Cout   = 1'b0;
+                end
+
+                // Bitwise OR
+                3'b011: begin
+                    Result = A | B;
+                    Cout   = 1'b0;
+                end
+
+                // Bitwise XOR
+                3'b100: begin
+                    Result = A ^ B;
+                    Cout   = 1'b0;
+                end
+
+                // Bitwise NOT
+                3'b101: begin
+                    Result = ~A;
+                    Cout   = 1'b0;
+                end
+
+                // Default operation
+                default: begin
+                    Result = 32'bz;
+                    Cout   = 1'bz;
+                end
+
+            endcase
+
+        end
+        else begin
+
+            // When Enable is LOW
+            Result = 32'bz;
+            Cout   = 1'bz;
+
+        end
+
+    end
+
+endmodule
